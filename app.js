@@ -1,5 +1,6 @@
 const postContainer = document.querySelector('#posts-container');
 const loaderContainer = document.querySelector('.loader');
+const filterInput = document.querySelector('#filter');
 let page = 1;
 
 
@@ -43,8 +44,10 @@ addPostsIntoDOM();
 
 
 const getNextPosts = async () =>{
+  setTimeout(()=>{
   page++;
   addPostsIntoDOM();
+  },300)
 }
 
 
@@ -70,3 +73,20 @@ window.addEventListener('scroll',()=>{
     showLoader();
   }
 })
+
+filterInput.addEventListener('input',e =>{
+  const inputValue = e.target.value.toLowerCase();
+  const posts = document.querySelectorAll('.post');
+
+  posts.forEach(post =>{
+    const postTitle = post.querySelector('.post-title').textContent.toLowerCase();
+    const postBody = post.querySelector('.post-body').textContent.toLowerCase();
+
+    if(postTitle.includes(inputValue)||postBody.includes(inputValue)){
+      post.style.display='flex';
+      return
+    }
+    post.style.display='none';
+  })
+
+});
